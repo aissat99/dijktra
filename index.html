@@ -4,10 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="gui.css">
-    <title>Document</title>
+    <title>Dijkstra</title>
 </head>
-<body>
-    <div id="gui">
+<body class="roboto-regular">
+    <div id="gui" class="roboto-regular">
         <div id="container"></div>
         <div id="options">
             <div class="option">
@@ -25,7 +25,7 @@
             </div>
         </div>
     </div>
-    <div id="add_node_prompt" class="popup" style="display:none;">
+    <div id="add_node_prompt" class="popup roboto-regular" style="display:none;">
         <form id="add_node_form" class="form">
             <label for="node_name">Node name</label>
             <input class="node_name" id="node_name" type="text" required>
@@ -35,15 +35,15 @@
             </div>
         </form>
     </div>
-    <div id="weight_prompt" class="popup" style="display:none;">
+    <div id="weight_prompt" class="popup roboto-regular" style="display:none;">
         <form id="weight_form" class="form" >
             <label for="weight">Weight</label>
             <input class="weight" id="weight" type="number">
             <button id="weightAdded">Done</button>
         </form>
     </div>
-    <div id="add_url_prompt" class="popup" style="display:none;">
-        <div><h2 id="server_title">url list</h2></div>
+    <div id="add_url_prompt" class="popup roboto-regular" style="display:none;">
+        <div><h2 id="server_title" class="roboto-black">url list</h2></div>
         <div style="height:67%;overflow:scroll;">
             <p id="url_list" style="margin: 0;">
                 
@@ -54,6 +54,18 @@
             <input class="url" id="url" type="text" required>
             <div class="finished">
                 <button id="newURL">Done</button>
+                <button class="cancel">Cancel</button>
+            </div>
+        </form>
+    </div>
+    <div id="dataInput_prompt" class="popup roboto-regular" style="display:none;">
+        <form id="dataInput_form" class="form" >
+            <label for="starting_node">Starting point</label>
+            <input class="starting_node" id="starting_node" type="text" required>
+            <label for="target_url">Target service url</label>
+            <input class="target_url" id="target_url" type="text" required>
+            <div class="finished">
+                <button id="inputGot">Done</button>
                 <button class="cancel">Cancel</button>
             </div>
         </form>

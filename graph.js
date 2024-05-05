@@ -1,9 +1,8 @@
 // a node class
 class Node {
-    constructor(nodeName="Node", neighbours=null, shapeImage="assets/img/server.png") {
+    constructor(nodeName="Node", shapeImage="assets/img/server.png") {
         // var stagePos = stage.getAbsolutePosition();
         this.name = nodeName;
-        this.neighbours = [neighbours];
         this.services=[];
         this.iconPath=shapeImage;
         this.gui = new Konva.Group({
@@ -77,8 +76,6 @@ function addNode(event)
     }
     img.src = new_node.iconPath;
     nodes.push(new_node);
-    console.log("---------------");
-    console.log(new_node.shape.position());
     // console.log(nodes);
     new_node.shape.on('dragmove', function() {
         // constrain the position of the element withn the stage
@@ -93,7 +90,7 @@ function addNode(event)
         layer.batchDraw();
     });
     // events on the node
-    new_node.gui.on('click', function(){
+    new_node.gui.on('click', function(event){
         //console.log(new_node.name);
         //console.log(deleteMode.value);
         if(deleteMode.value === true)
@@ -118,12 +115,7 @@ function addNode(event)
             else
             {
                 selectedNode2 = new_node;
-                selectedNode1.neighbours.push(selectedNode2);
-                selectedNode2.neighbours.push(selectedNode1);
-                // console.log(selectedNode1.neighbours);
-                // console.log(selectedNode2.neighbours);
                 showAddForm("weight_prompt");
-                console.log("=------------------------------------=");
                 // exit the link mode
                 linkMode.value = false;
             }
@@ -137,6 +129,7 @@ function addNode(event)
             showAddForm("add_url_prompt");
             var title = "Services available in: "+new_node.name;
             document.getElementById("server_title").innerText=title;
+            updateUrlList(selectedServer);
         }
     });
     // removing the form when a node is added
@@ -144,25 +137,28 @@ function addNode(event)
     element.style.display = 'none';
 }
 
+// function that fetches all the url in a node and gives it to the front
+function updateUrlList(server)
+{
+    // refresh the list of services in the front
+    var p = document.getElementById("url_list");
+    p.innerHTML = '';
+    var url_list = server.services;
+    for(var i = 0; i < url_list.length; i++)
+    {
+        p.innerHTML += url_list[i]+'<br /><br />';
+    }
+}
 // add an url to a server
-function addUrl(event)
+function addUrl(event, url)
 {
     event.preventDefault();
     deleteMode.value = false;
     linkMode.value = false;
     element = document.getElementById("add_url_prompt");
     element.style.display = 'none';
-    var new_url = document.getElementById("url").value;
-    selectedServer.services.push(new_url);
-    // refresh the list of services in the front
-    var p = document.getElementById("url_list");
-    p.innerHTML = '';
-    var url_list = selectedServer.services;
-    for(var i = 0; i < url_list.length; i++)
-    {
-        p.innerHTML += url_list[i]+'<br /><br />';
-    }
-    // restore the values for a future writing
+    // refresh the list of urls of the selected server
+    selectedServer.services.push(url);
     selectedServer = null;
 }
 
@@ -171,7 +167,9 @@ function linkNodes(node1, node2, weight)
 {
     deleteMode.value = false;
     linkMode.value = false;
+    // link the nodes with an edge
     var edge = new Edge(node1.name+"_"+node2.name, node1, node2, weight);
+    edges.push(edge);
     // gui
     edge.shape.on('click', function(){
         if(deleteMode.value === true)
@@ -179,9 +177,7 @@ function linkNodes(node1, node2, weight)
             deleteEdge(edges, edge.id);
         }
     });
-    edges.push(edge);
     // prompting the edge weight form
-    // some other code to ask for the distance
     layer.draw();
 }
 
@@ -192,8 +188,7 @@ function addWeight(event)
     linkMode.value = false;
     element = document.getElementById("weight_prompt");
     element.style.display = 'none';
-    var weight_value = document.getElementById("weight").value;
-    console.log(weight_value);
+    var weight_value = Number(document.getElementById("weight").value);
     linkNodes(selectedNode1, selectedNode2, weight_value);
     // restore the values for a future writing
     selectedNode1 = null;
@@ -203,7 +198,6 @@ function addWeight(event)
 /// delete nodes
 function deleteNode(obj, value)
 {
-    console.log("------------------------>"+obj.length);
     for(var i =0; i < obj.length; i++)
     {
         if(obj[i].name === value)
@@ -213,9 +207,6 @@ function deleteNode(obj, value)
             obj.splice(i, 1); // removing the node from the graph
             i--;
         }
-        else{
-            console.log("nope");
-        }
     }
     deleteMode.value = false;
     linkMode.value = false;
@@ -224,7 +215,6 @@ function deleteNode(obj, value)
 /// delete edges
 function deleteEdge(obj, value)
 {
-    console.log("----------------------->"+obj.length);
     var i = 0;
     for(i = 0; i < obj.length; i++)
     {
@@ -235,10 +225,6 @@ function deleteEdge(obj, value)
             obj[i].display_weight.destroy();
             obj.splice(i, 1); // removing the edge from the graph
             i--;
-        }
-        else
-        {
-            console.log("nope");
         }
     }
     deleteMode.value = false;

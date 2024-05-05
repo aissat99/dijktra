@@ -6,6 +6,8 @@ var text_style = {
     style:'bold'
 }
 
+var highlight_color = '#DD5746';
+
 /// user manipulations
 // update the gui on user movements
 function updateEdgePositions()
@@ -39,7 +41,6 @@ function switchToDeleteMode(deleteMode)
 {
     linkMode.value = false;
     deleteMode.value = !(deleteMode.value);
-    console.log("delete mode: "+deleteMode.value);
 }
 
 // add mode
@@ -73,6 +74,7 @@ function chooseOption(event, linkMode)
     // Prevent stage click event from being triggered
     // event.cancelBubble = true;
 }
+// function that prints a form which ID is the argument of the function
 function showAddForm(name)
 {
     deleteMode.value = false;
@@ -82,20 +84,44 @@ function showAddForm(name)
     // console.log(element);
     element.style.display = 'flex';
 }
+// a function that will prompt a form to get dijkstra input
+function getDataInput()
+{
+    console.log("-----drainnwwwww, lol----");
+    showAddForm("dataInput_prompt");
+}
 
 /// base gui
 
 // event listeners
 document.getElementById('addButton').addEventListener('click', function(event) {
-    // event.preventDefault();
+    event.preventDefault();
     chooseOption(event, linkMode);
 });
 
-document.getElementById("deleteButton").addEventListener('click', function(){
+document.getElementById("deleteButton").addEventListener('click', function(event){
+    event.preventDefault();
     switchToDeleteMode(deleteMode);
 });
 
+document.getElementById("search_path").addEventListener('click', function(event){
+    event.preventDefault();
+    getDataInput();
+});
+document.getElementById("inputGot").addEventListener('click', function(event){
+    var form = document.getElementById("dataInput_prompt");
+    form.style.display="none";
+    event.preventDefault();
+    // getting the data for the dijkstra algorithm
+    var start_point = document.getElementById("starting_node").value;
+    var url_target = document.getElementById("target_url").value;
+    // console.log(start_point)
+    // console.log(url_target)
+    dijkstra(start_point, url_target);
+});
+
 document.getElementById('nodeAdded').addEventListener('click', function(event){
+    event.preventDefault();
     let node_name = document.getElementById('node_name').value;
     if(!node_name)
     {
@@ -107,29 +133,32 @@ document.getElementById('nodeAdded').addEventListener('click', function(event){
     }
 });
 document.getElementById('newURL').addEventListener('click', function(event){
-    let node_name = document.getElementById('url').value;
-    if(!node_name)
+    let url = document.getElementById('url').value;
+    if(!url)
     {
         event.preventDefault();
     }
     else
     {
-        addUrl(event);
+        event.preventDefault();
+        addUrl(event, url);
     }
 });
 var cancels = document.getElementsByClassName('cancel');
 for(let i  = 0; i < cancels.length; i++)
 {
     cancels[i].addEventListener('click', function(event){
-    var popups = document.getElementsByClassName('popup');
-    for(let j = 0; j < popups.length; j++)
-    {
-        popups[j].style.display='none';
-    }
+        event.preventDefault();
+        var popups = document.getElementsByClassName('popup');
+        for(let j = 0; j < popups.length; j++)
+        {
+            popups[j].style.display='none';
+        }
 });
 }
 
 document.getElementById('weightAdded').addEventListener('click', function(event){
+    event.preventDefault();
     let weight = document.getElementById('weight').value;
     if(!weight)
     {
@@ -143,6 +172,7 @@ document.getElementById('weightAdded').addEventListener('click', function(event)
 
 // making all elements disappear when the screen is clicked
 document.addEventListener('click', function(event) {
+    event.preventDefault();
     var element = document.getElementById('menu');
     if (!element.contains(event.target)) {
       // Clicked outside the element, hide it
@@ -158,16 +188,10 @@ var stage = new Konva.Stage({
     width: window.innerWidth-100,
     height: window.innerHeight+130,
     });
-console.log(stage.getAbsolutePosition().x);
-console.log(stage.width());
 var stagePos = stage.container().getBoundingClientRect();
-console.log(stagePos);
 
 // Function to constrain object within stage bounds
 function constrainObjectPosition(object) {
-    var containerRect = stage.container().getBoundingClientRect();
-    console.log(containerRect)
-
     var minX = 0;
     var maxX = stage.width() - object.width()*8.5;
     var minY = 0;
@@ -189,7 +213,6 @@ function constrainObjectPosition(object) {
     }
     else if(object.y() > maxY)
     {
-        console.log("mihoatra");
         newY = maxY;
     }
 
