@@ -1,0 +1,52 @@
+/* Main stage*/
+#gui {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    margin-top:0;
+    /* padding-bottom: 2em; */
+    border: blue solid;
+}
+
+#container {
+    /* position: absolute;
+    top:0;
+    left: 50em; */
+    border: 5px solid #000;
+    width: 1600px;
+    height: 750px; /* 4/5 of viewport height minus border width */
+    margin: 0 auto;
+    padding: 0;
+}
+
+#options {
+    /* position:absolute;
+    top:700;
+    left:0; */
+    /* flex:1; */
+    /* flex-direction: column; */
+    align-self:flex-end; /* Align items to the end */
+    display: flex;
+    justify-content: space-between;
+    margin-right: 9em;
+    margin-top:1em;
+    width:400px;
+    border: 1px solid #ccc; /* Just for demonstration */
+}
+
+.option button{
+    height: 30px;
+}
+
+#menu {
+    position: relative;
+    border:pink solid 3px;
+}
+
+.menu-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    display: block;
+    margin: 5px 0;
+}
