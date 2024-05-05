@@ -5,20 +5,20 @@ class Node {
         this.name = nodeName;
         this.neighbours = [neighbours];
         this.gui = new Konva.Group({
-            x: stagePos.x+100,
-            y: stagePos.y+75/* + stage.height() / 2,*/
+            // x: 30,
+            // y: 30/* + stage.height() / 2,*/
         });
         this.shape = new Konva.Circle({
-            x: stagePos.x+100,
-            y: stagePos.y+75,/* + stage.height() / 2,*/
+            x:30,
+            y:65,
             radius: 30,
             fill: '#00215E',
             stroke: 'black',
             strokeWidth: 2
         });
         this.display_name = new Konva.Text({
-            x: stagePos.x+100,
-            y: stagePos.y+75,/* + stage.height() / 2,*/
+            x:0,
+            y:0,
             text: nodeName,
             fontSize: 30,
             fontFamily: 'Calibri',
@@ -45,8 +45,8 @@ class Edge {
             stroke: 'black'
         });
         this.display_weight = new Konva.Text({
-            x: this.shape.x / 2,
-            y: this.shape.y - 65,
+            x: node1.shape.x()+40,
+            y: node1.shape.y() - 30,
             text: this.weight,
             fontSize: 30,
             fontFamily: 'Calibri',

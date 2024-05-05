@@ -42,13 +42,13 @@ function chooseOption(event, linkMode)
     linkMode.value = false;
 
     var menu = document.getElementById('menu');
-    var triggerButtonPos = document.getElementById('options').getBoundingClientRect();
+    var triggerButtonPos = document.getElementById('addButton').getBoundingClientRect();
     // position of the mouse
-    var posX = triggerButtonPos.left;
+    var posX = triggerButtonPos.right;
     var posY = triggerButtonPos.top;
     // position of the element
     menu.style.top = posY + 'px';
-    menu.style.left = posX + 'px';
+    menu.style.left = posX + 3 + 'px';
     menu.style.display = 'block';
     // Handle option clicks
     document.getElementById('addNode').onclick = function() {
@@ -101,10 +101,8 @@ var container = document.getElementById('container');
 var containerRect = container.getBoundingClientRect();
 var stage = new Konva.Stage({
     container: 'container',   // id of container <div>
-    width: window.innerWidth,
-    height: window.innerHeight,
-    // x: containerRect.left,
-    // y: containerRect.top
+    width: window.innerWidth-100,
+    height: window.innerHeight+130,
     });
 console.log(stage.getAbsolutePosition().x);
 console.log(stage.width());
@@ -132,10 +130,10 @@ function constrainObjectPosition(object) {
     var containerRect = stage.container().getBoundingClientRect();
     console.log(containerRect)
 
-    var minX = 0;
-    var maxX = /*stagePos.x + */containerRect.width - object.radius() * 2;
+    var minX = -30;
+    var maxX = /*stagePos.x + */stage.width() - object.radius() * 12;
     var minY = 0;
-    var maxY = /*stagePos.y + */containerRect.height - object.radius() * 2;
+    var maxY = /*stagePos.y + */stage.height() - object.radius() * 3.5;
 
     var newX = object.x();
     if(object.x() < minX)
@@ -153,6 +151,7 @@ function constrainObjectPosition(object) {
     }
     else if(object.y() > maxY)
     {
+        console.log("mihoatra");
         newY = maxY;
     }
 

@@ -1,34 +1,33 @@
+body {
+    background-color: #8CB9BD;
+}
+
 /* Main stage*/
 #gui {
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
     margin-top:0;
     /* padding-bottom: 2em; */
     border: blue solid;
+    width: max-content;
+    height: max-content;
+    margin: 0 auto;
 }
 
 #container {
-    /* position: absolute;
-    top:0;
-    left: 50em; */
+    position: relative;
     border: 5px solid #000;
     width: 1600px;
-    height: 750px; /* 4/5 of viewport height minus border width */
-    margin: 0 auto;
+    height: 750px;
     padding: 0;
+    background-color: #FEFBF6;
 }
 
 #options {
-    /* position:absolute;
-    top:700;
-    left:0; */
-    /* flex:1; */
-    /* flex-direction: column; */
     align-self:flex-end; /* Align items to the end */
     display: flex;
     justify-content: space-between;
-    margin-right: 9em;
+    margin-right: 0.5em;
     margin-top:1em;
     width:400px;
     border: 1px solid #ccc; /* Just for demonstration */
@@ -36,17 +35,24 @@
 
 .option button{
     height: 30px;
+    border:none;
+    background-color: #8CB9BD;
 }
 
 #menu {
-    position: relative;
-    border:pink solid 3px;
+    position: fixed;
+    background-color: #f1f1f1;
+    border: pink solid;
+    padding: 0 1em;
 }
 
 .menu-button {
     background: none;
     border: none;
-    cursor: pointer;
     display: block;
     margin: 5px 0;
+}
+
+.menu-button:hover {
+    color: #9B4444;
 }
