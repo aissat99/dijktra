@@ -1,31 +1,32 @@
 // a node class
 class Node {
-    constructor(nodeName="Node", neighbours=null, shapeImage="") {
-        var stagePos = stage.getAbsolutePosition();
+    constructor(nodeName="Node", neighbours=null, shapeImage="assets/img/server.png") {
+        // var stagePos = stage.getAbsolutePosition();
         this.name = nodeName;
         this.neighbours = [neighbours];
+        this.services=[];
+        this.iconPath=shapeImage;
         this.gui = new Konva.Group({
             // x: 30,
             // y: 30/* + stage.height() / 2,*/
         });
-        this.shape = new Konva.Circle({
-            x:30,
-            y:65,
-            radius: 30,
-            fill: '#00215E',
-            stroke: 'black',
-            strokeWidth: 2
+        this.shape = new Konva.Image({
+            x:0,
+            y:20,
+            width: 30,
+            height: 40
         });
         this.display_name = new Konva.Text({
             x:0,
             y:0,
             text: nodeName,
-            fontSize: 30,
-            fontFamily: 'Calibri',
-            fill: 'green',
+            fontSize: text_style.size,
+            fontStyle: text_style.style,
+            fontFamily: text_style.font_family,
+            fill: text_style.color,
         })
     // properties
-        this.gui.add(this.shape);
+        // this.gui.add(this.shape);
         this.gui.add(this.display_name);
         layer.add(this.gui);
         this.shape.draggable(true);
@@ -40,7 +41,7 @@ class Edge {
         this.nodes = [node1, node2];
         this.weight = weight;
         this.shape = new Konva.Line({
-            points: [node1.shape.x(), node1.shape.y(), node2.shape.x(), node2.shape.y()],
+            points: [node1.shape.x()+node1.shape.width()+5, node1.shape.y()+node1.shape.height()/2, node2.shape.x()-5, node2.shape.y()+node2.shape.height()/2],
             strokeWidth: 4,
             stroke: 'black'
         });
@@ -48,9 +49,10 @@ class Edge {
             x: node1.shape.x()+40,
             y: node1.shape.y() - 30,
             text: this.weight,
-            fontSize: 30,
-            fontFamily: 'Calibri',
-            fill: 'green',
+            fontSize: text_style.size,
+            fontStyle: text_style.style,
+            fontFamily: text_style.font_family,
+            fill: text_style.color,
         })
         // linking the edge to both groups, such that modification of either group will affect the edge
         layer.add(this.shape);
@@ -68,6 +70,12 @@ function addNode(event)
     linkMode.value = false;
     let node_name = document.getElementById('node_name').value;
     let new_node = new Node(node_name);
+    var img = new Image();
+    img.onload= function(){
+        new_node.shape.image(img);
+        new_node.gui.add(new_node.shape);
+    }
+    img.src = new_node.iconPath;
     nodes.push(new_node);
     console.log("---------------");
     console.log(new_node.shape.position());
@@ -77,8 +85,8 @@ function addNode(event)
         constrainObjectPosition(new_node.shape);
         // position of the text
         new_node.display_name.position({
-            x: new_node.shape.x() - 30, // Offset by 10 pixels horizontally
-            y: new_node.shape.y() - 65  // Offset by 30 pixels vertically
+            x: new_node.shape.x(), // Offset by 10 pixels horizontally
+            y: new_node.shape.y() - 20  // Offset by 30 pixels vertically
         });
         // position of the edges
         updateEdgePositions();
@@ -114,7 +122,7 @@ function addNode(event)
                 selectedNode2.neighbours.push(selectedNode1);
                 // console.log(selectedNode1.neighbours);
                 // console.log(selectedNode2.neighbours);
-                showAddForm("weight_form");
+                showAddForm("weight_prompt");
                 console.log("=------------------------------------=");
                 // exit the link mode
                 linkMode.value = false;
@@ -125,11 +133,37 @@ function addNode(event)
             // if not in selecting mode, unselect any node to prevent unintended links to be created
             selectedNode1 = null;
             selectedNode2 = null;
+            selectedServer = new_node;
+            showAddForm("add_url_prompt");
+            var title = "Services available in: "+new_node.name;
+            document.getElementById("server_title").innerText=title;
         }
     });
     // removing the form when a node is added
-    var element = document.getElementById('add_node_form');
+    var element = document.getElementById('add_node_prompt');
     element.style.display = 'none';
+}
+
+// add an url to a server
+function addUrl(event)
+{
+    event.preventDefault();
+    deleteMode.value = false;
+    linkMode.value = false;
+    element = document.getElementById("add_url_prompt");
+    element.style.display = 'none';
+    var new_url = document.getElementById("url").value;
+    selectedServer.services.push(new_url);
+    // refresh the list of services in the front
+    var p = document.getElementById("url_list");
+    p.innerHTML = '';
+    var url_list = selectedServer.services;
+    for(var i = 0; i < url_list.length; i++)
+    {
+        p.innerHTML += url_list[i]+'<br /><br />';
+    }
+    // restore the values for a future writing
+    selectedServer = null;
 }
 
 /// Link 2 nodes
@@ -156,7 +190,7 @@ function addWeight(event)
     event.preventDefault();
     deleteMode.value = false;
     linkMode.value = false;
-    element = document.getElementById("weight_form");
+    element = document.getElementById("weight_prompt");
     element.style.display = 'none';
     var weight_value = document.getElementById("weight").value;
     console.log(weight_value);

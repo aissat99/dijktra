@@ -1,19 +1,27 @@
+// text style properties
+var text_style = {
+    size:15,
+    font_family:'Calibri',
+    color:'#32012F',
+    style:'bold'
+}
+
 /// user manipulations
 // update the gui on user movements
 function updateEdgePositions()
 {
     for(var i = 0; i < edges.length; i++)
     {
-        var pos = [edges[i].nodes[0].shape.x(), edges[i].nodes[0].shape.y(), edges[i].nodes[1].shape.x(), edges[i].nodes[1].shape.y()];
+        var pos = [edges[i].nodes[0].shape.x()+edges[i].nodes[0].shape.width()+5, edges[i].nodes[0].shape.y()+edges[i].nodes[0].shape.height()/2, edges[i].nodes[1].shape.x()-5, edges[i].nodes[1].shape.y()+edges[i].nodes[1].shape.height()/2];
         edges[i].shape.points(pos);
         var textX, textY;
         if (Math.abs(pos[2] - pos[0]) > Math.abs(pos[3] - pos[1])) {
             // Line is more horizontal
             textX = (pos[0] + pos[2]) / 2;
-            textY = (pos[1] + pos[3]) / 2 - 40; // Decal the text a few pixels above
+            textY = (pos[1] + pos[3]) / 2 - 20; // Decal the text a few pixels above
         } else {
             // Line is more vertical
-            textX = (pos[0] + pos[2]) / 2 - 60; // Decal the text a few pixels to the left
+            textX = (pos[0] + pos[2]) / 2 - 35; // Decal the text a few pixels to the left
             textY = (pos[1] + pos[3]) / 2;
         }
 
@@ -40,7 +48,8 @@ function chooseOption(event, linkMode)
     // just to prevent elements to be destroyed when in adding mode
     deleteMode.value = false;
     linkMode.value = false;
-
+    
+    event.stopPropagation(); // to prevent click on the screen making the element disappear
     var menu = document.getElementById('menu');
     var triggerButtonPos = document.getElementById('addButton').getBoundingClientRect();
     // position of the mouse
@@ -48,11 +57,11 @@ function chooseOption(event, linkMode)
     var posY = triggerButtonPos.top;
     // position of the element
     menu.style.top = posY + 'px';
-    menu.style.left = posX + 3 + 'px';
+    menu.style.left = posX + 4 +'px';
     menu.style.display = 'block';
     // Handle option clicks
     document.getElementById('addNode').onclick = function() {
-        showAddForm("add_node_form");
+        showAddForm("add_node_prompt");
         menu.style.display = 'none';
     };
 
@@ -71,9 +80,7 @@ function showAddForm(name)
     // console.log("nisy niantso ahooo. ========= "+name);
     var element = document.getElementById(name);
     // console.log(element);
-    element.style.display = 'block';
-    // console.log(element.style.display);
-    return element.value;
+    element.style.display = 'flex';
 }
 
 /// base gui
@@ -89,12 +96,59 @@ document.getElementById("deleteButton").addEventListener('click', function(){
 });
 
 document.getElementById('nodeAdded').addEventListener('click', function(event){
-    addNode(event);
+    let node_name = document.getElementById('node_name').value;
+    if(!node_name)
+    {
+        event.preventDefault();
+    }
+    else
+    {
+        addNode(event);
+    }
 });
+document.getElementById('newURL').addEventListener('click', function(event){
+    let node_name = document.getElementById('url').value;
+    if(!node_name)
+    {
+        event.preventDefault();
+    }
+    else
+    {
+        addUrl(event);
+    }
+});
+var cancels = document.getElementsByClassName('cancel');
+for(let i  = 0; i < cancels.length; i++)
+{
+    cancels[i].addEventListener('click', function(event){
+    var popups = document.getElementsByClassName('popup');
+    for(let j = 0; j < popups.length; j++)
+    {
+        popups[j].style.display='none';
+    }
+});
+}
 
 document.getElementById('weightAdded').addEventListener('click', function(event){
-    addWeight(event);
+    let weight = document.getElementById('weight').value;
+    if(!weight)
+    {
+        event.preventDefault();
+    }
+    else
+    {
+        addWeight(event);
+    }
 });
+
+// making all elements disappear when the screen is clicked
+document.addEventListener('click', function(event) {
+    var element = document.getElementById('menu');
+    if (!element.contains(event.target)) {
+      // Clicked outside the element, hide it
+      element.style.display = 'none';
+    }
+  });
 
 // creating the stage
 var container = document.getElementById('container');
@@ -111,29 +165,13 @@ console.log(stagePos);
 
 // Function to constrain object within stage bounds
 function constrainObjectPosition(object) {
-    // stagePos = stage.getAbsolutePosition();
-    // stage_x = stagePos.x;
-    // stage_y = stagePos.y;
-    // // Constrain object horizontally
-    // if (object.x() < stage_x) {
-    //   object.x(stage_x);
-    // } else if (object.x() > container.offsetWidth - object.radius()) {
-    //   object.x(container.offsetWidth - object.radius());
-    // }
-  
-    // // Constrain object vertically
-    // if (object.y() < 0) {
-    //   object.y(0);
-    // } else if (object.y() > container.offsetHeight - object.radius()) {
-    //   object.y(container.offsetHeight - object.radius());
-    // }
     var containerRect = stage.container().getBoundingClientRect();
     console.log(containerRect)
 
-    var minX = -30;
-    var maxX = /*stagePos.x + */stage.width() - object.radius() * 12;
+    var minX = 0;
+    var maxX = stage.width() - object.width()*8.5;
     var minY = 0;
-    var maxY = /*stagePos.y + */stage.height() - object.radius() * 3.5;
+    var maxY = stage.height() - object.height();
 
     var newX = object.x();
     if(object.x() < minX)

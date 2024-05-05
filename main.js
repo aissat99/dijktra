@@ -15,3 +15,10 @@ console.log(nodes);
 // when in link mode, these will contain the selected nodes
 var selectedNode1 = null;
 var selectedNode2 = null;
+// for servers
+var selectedServer=null;
+
+function dijkstra()
+{
+    console.log("====== called dijkstra algorithm ===========");
+}

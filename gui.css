@@ -7,8 +7,6 @@ body {
     display: flex;
     flex-direction: column;
     margin-top:0;
-    /* padding-bottom: 2em; */
-    border: blue solid;
     width: max-content;
     height: max-content;
     margin: 0 auto;
@@ -16,43 +14,103 @@ body {
 
 #container {
     position: relative;
-    border: 5px solid #000;
+    border: 5px solid #32012F;
     width: 1600px;
     height: 750px;
     padding: 0;
     background-color: #FEFBF6;
 }
 
+/* Menu buttons position*/
 #options {
     align-self:flex-end; /* Align items to the end */
     display: flex;
     justify-content: space-between;
     margin-right: 0.5em;
     margin-top:1em;
-    width:400px;
-    border: 1px solid #ccc; /* Just for demonstration */
+    width:430px;
+    /* border: 1px solid #ccc; Just for demonstration */
 }
 
 .option button{
     height: 30px;
     border:none;
     background-color: #8CB9BD;
+    font-size: 1.2em;
 }
 
+.option button:hover{
+   text-decoration: underline;
+}
+
+/* Dropdown options */
 #menu {
     position: fixed;
     background-color: #f1f1f1;
-    border: pink solid;
-    padding: 0 1em;
+    border: #f1f1f1 solid;
+    padding: 0 0.3em;
 }
 
 .menu-button {
-    background: none;
     border: none;
     display: block;
     margin: 5px 0;
+    font-size: 1.1em !important;
+    background-color: #f1f1f1 !important;
 }
 
 .menu-button:hover {
     color: #9B4444;
+    text-decoration: none !important;
+}
+
+/* popup */
+.popup {
+    position: fixed;
+    top: 40%;
+    left: 49%;
+    transform: translate(-50%, -50%);
+}
+
+.form {
+    width: 350px;
+    height: 100px;
+    display: flex;
+    padding: 0.7em 1.5em;
+    flex-direction: column;
+    justify-content: space-evenly;
+    background-color: #4D869C;
+    color: #EEF7FF;
+    border:#4D869C solid 1px;
+    border-radius: 10px;
+}
+
+.form .finished {
+    display: flex;
+    align-self: center;
+    justify-content: space-between;
+}
+.form .finished button{
+    margin:0 1em;
+}
+
+/*URLs*/
+#add_url_prompt {
+    width: 350px;
+    height: 400px;
+    display: flex;
+    flex-direction: column;
+    /* justify-content: space-between; */
+    padding: 0.7em 1.1em;
+    background-color: #4D869C;
+    color: #EEF7FF;
+    border:#4D869C solid 1px;
+    font-size: 0.8em;
+}
+#add_url_form {
+    height: 25%;
+    display:flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    margin-top:0.7em;
 }
