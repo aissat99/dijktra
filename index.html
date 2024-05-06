@@ -3,8 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="gui.css">
+    <link rel="stylesheet" href="assets/styles/gui.css">
     <title>Dijkstra</title>
+    <link rel="icon" href="assets/img/server.png" type="image/png">
 </head>
 <body class="roboto-regular">
     <div id="gui" class="roboto-regular">
@@ -13,8 +14,8 @@
             <div class="option">
                 <button id="addButton">add element</button>
                 <div id="menu" style="display: none;">
-                    <button id="addNode" class="menu-button">Node</button>
-                    <button id="addEdge" class="menu-button">Edge</button>
+                    <button id="addNode" class="menu-button">Server</button>
+                    <button id="addEdge" class="menu-button">Link</button>
                 </div>
             </div>
             <div class="option">
@@ -23,11 +24,14 @@
             <div class="option">
                 <button id="search_path">search path</button>
             </div>
+            <div class="option">
+                <button id="print">print</button>
+            </div>
         </div>
     </div>
     <div id="add_node_prompt" class="popup roboto-regular" style="display:none;">
         <form id="add_node_form" class="form">
-            <label for="node_name">Node name</label>
+            <label for="node_name">Hostname</label>
             <input class="node_name" id="node_name" type="text" required>
             <div class="finished">
                 <button id="nodeAdded">Done</button>
@@ -37,20 +41,20 @@
     </div>
     <div id="weight_prompt" class="popup roboto-regular" style="display:none;">
         <form id="weight_form" class="form" >
-            <label for="weight">Weight</label>
+            <label for="weight">Ping time</label>
             <input class="weight" id="weight" type="number">
             <button id="weightAdded">Done</button>
         </form>
     </div>
     <div id="add_url_prompt" class="popup roboto-regular" style="display:none;">
         <div><h2 id="server_title" class="roboto-black">url list</h2></div>
-        <div style="height:67%;overflow:scroll;">
+        <div class="list" style="height:67%;overflow:scroll;">
             <p id="url_list" style="margin: 0;">
                 
             </p>
         </div>
         <form id="add_url_form">
-            <label for="url" style="font-weight:bold;">add an URL</label>
+            <label for="url" style="font-weight:bold;">Add an URL</label>
             <input class="url" id="url" type="text" required>
             <div class="finished">
                 <button id="newURL">Done</button>
@@ -70,9 +74,9 @@
             </div>
         </form>
     </div>
-    <script src="konva.js"></script>
-    <script src="gui.js"></script>
-    <script src="graph.js"></script>
-    <script src="main.js"></script>
+    <script src="assets/scripts/konva.js"></script>
+    <script src="assets/scripts/gui.js"></script>
+    <script src="assets/scripts/graph.js"></script>
+    <script src="assets/scripts/main.js"></script>
 </body>
 </html>
