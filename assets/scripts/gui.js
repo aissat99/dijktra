@@ -94,6 +94,7 @@ function showAddForm(name)
 // a function that will prompt a form to get dijkstra input
 function getDataInput()
 {
+    console.log("-----drainnwwwww, lol----");
     showAddForm("dataInput_prompt");
 }
 
@@ -121,7 +122,9 @@ document.getElementById("inputGot").addEventListener('click', function(event){
     // getting the data for the dijkstra algorithm
     var start_point = document.getElementById("starting_node").value;
     var url_target = document.getElementById("target_url").value;
-    // dijkstra(start_point, url_target);
+    // console.log(start_point)
+    // console.log(url_target)
+    dijkstra(start_point, url_target);
 });
 
 document.getElementById('nodeAdded').addEventListener('click', function(event){
