@@ -71,10 +71,7 @@ function dijkstra(start_point, url_target)
 
     // updating the UI
     let end_point = searchPath(url_target, distances);
-    buildPath(start_point, end_point, predecessors);    // this will color the edges
-
-    // exporting the result
-    print();
+    buildPath(start_point, end_point, predecessors);    // this will color the edgess
 }
 
 // function that looks for all the neighbours of a given node
@@ -162,8 +159,20 @@ function buildPath(start_point, end_point, predecessors)
     }
     console.log(edgesIDs);
     // style: coloring the node
-    let node = findNode(start_point);
-    node.display_name.fill(highlight_color);
+    for(var i = 0; i < nodes.length; i++)
+    {
+        var node = nodes[i];
+        var id = nodes[i].name;
+        if(id === start_point)
+        {
+            node.display_name.fill(highlight_color);
+        }
+        else
+        {
+            node.display_name.fill(text_style.color);
+        }
+    }
+    
     // style: coloring the edges
     for(var i = 0; i < edges.length; i++)
     {
