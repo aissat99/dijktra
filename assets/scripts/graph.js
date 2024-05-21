@@ -4,6 +4,7 @@ class Node {
         // var stagePos = stage.getAbsolutePosition();
         this.name = nodeName;
         this.services=[];
+        this.state =  false;     // to set the server active or not
         this.iconPath=shapeImage;
         this.gui = new Konva.Group({
             // x: 30,
@@ -75,7 +76,7 @@ function addNode(event)
         new_node.gui.add(new_node.shape);
     }
     img.src = new_node.iconPath;
-    nodes.push(new_node);
+    // nodes.push(new_node);    // nodes will be added manually wether a server is active or not
     // console.log(nodes);
     new_node.shape.on('dragmove', function() {
         // constrain the position of the element withn the stage
@@ -128,7 +129,9 @@ function addNode(event)
             selectedServer = new_node;
             showAddForm("add_url_prompt");
             var title = "Services available in: "+new_node.name;
+            var state = new_node.state === true?'Deactivate server':'Activate server';
             document.getElementById("server_title").innerText=title;
+            document.getElementById('changeState').innerHTML = state;
             updateUrlList(selectedServer);
         }
     });

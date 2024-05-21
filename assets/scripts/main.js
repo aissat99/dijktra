@@ -114,7 +114,7 @@ function findNode(nodeName)
     {
         if(nodes[i].name === nodeName)
         {
-            return nodes[i];
+            return i;
         }
     }
 }
@@ -127,7 +127,8 @@ function searchPath(target, paths)
     for(let server in paths)
     {
         // getting the node
-        let node = findNode(server);
+        let index = findNode(server);
+        let node = nodes[index];
         // then see if the link belongs to the server
         if(findLink(target, node))
         {

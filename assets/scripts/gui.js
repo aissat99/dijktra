@@ -156,6 +156,7 @@ for(let i  = 0; i < cancels.length; i++)
 {
     cancels[i].addEventListener('click', function(event){
         event.preventDefault();
+        selectedServer = null;
         var popups = document.getElementsByClassName('popup');
         for(let j = 0; j < popups.length; j++)
         {
@@ -176,6 +177,27 @@ document.getElementById('weightAdded').addEventListener('click', function(event)
         addWeight(event);
     }
 });
+
+// socket instaance
+document.getElementById('changeState').addEventListener('click', function(event){
+    let element = document.getElementById('changeState');
+    // changing the state (more code needed for the instanciation)
+    selectedServer.state = !selectedServer.state;
+    console.log(selectedServer.state);
+    if(selectedServer.state === true)
+    {
+        element.innerHTML = 'Deactivate Server';
+        // add the node to the list of nodes
+        nodes.push(selectedServer);
+    }
+    else
+    {
+        element.innerHTML = 'Activate server';
+        // removing the server to the elements of the graph,making it unable to be used for a path search with dijkstra
+        let nodeIndex = findNode(selectedServer.name);
+        nodes.splice(nodeIndex, 1);
+    }
+})
 
 // making all elements disappear when the screen is clicked
 document.addEventListener('click', function(event) {
