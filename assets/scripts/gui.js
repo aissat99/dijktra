@@ -187,12 +187,15 @@ document.getElementById('changeState').addEventListener('click', function(event)
     if(selectedServer.state === true)
     {
         element.innerHTML = 'Deactivate Server';
-        // add the node to the list of nodes
+        // add the node to the list of nodes and activate the server
+        // selectedServer.startServer();
         nodes.push(selectedServer);
     }
     else
     {
         element.innerHTML = 'Activate server';
+        // stopping the server
+        // selectedServer.stopServer();
         // removing the server to the elements of the graph,making it unable to be used for a path search with dijkstra
         let nodeIndex = findNode(selectedServer.name);
         nodes.splice(nodeIndex, 1);

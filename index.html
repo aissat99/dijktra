@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="assets/styles/gui.css">
     <title>Dijkstra</title>
+    <!-- SOCKET.IO import -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.0/socket.io.js"></script>
     <link rel="icon" href="assets/img/server.png" type="image/png">
 </head>
 <body class="roboto-regular">
@@ -58,11 +60,11 @@
             <input class="url" id="url" type="text" required>
             <div class="finished">
                 <button id="newURL">Done</button>
-                <button class="cancel">Cancel</button>
             </div>
         </form>
         <div id="serverState">
             <button id="changeState">Activate server</button>
+            <button class="cancel">Close</button>
         </div>
     </div>
     <div id="dataInput_prompt" class="popup roboto-regular" style="display:none;">
@@ -77,6 +79,7 @@
             </div>
         </form>
     </div>
+    <!-- <script type="module" src="assets/scripts/modules.js"></script> -->
     <script src="assets/scripts/konva.js"></script>
     <script src="assets/scripts/gui.js"></script>
     <script src="assets/scripts/graph.js"></script>

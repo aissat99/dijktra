@@ -3,8 +3,19 @@ class Node {
     constructor(nodeName="Node", shapeImage="assets/img/server.png") {
         // var stagePos = stage.getAbsolutePosition();
         this.name = nodeName;
+        // ------server simulations---------
         this.services=[];
         this.state =  false;     // to set the server active or not
+        this.socket = io('http://localhost:3000');
+
+        this.id = 0;    // used to identify the server on the network
+        // handle socket event
+        this.socket.on('connect', () => {
+            this.id = this.socket.id;
+            console.log("The ID of the server: ", this.id);
+        });
+        // this.socket.disconnect();   // not active be default
+        // ------------------------------------------
         this.iconPath=shapeImage;
         this.gui = new Konva.Group({
             // x: 30,
@@ -30,7 +41,18 @@ class Node {
         this.gui.add(this.display_name);
         layer.add(this.gui);
         this.shape.draggable(true);
-
+        console.log(this.id);
+    }
+    // activate/deactivate the server
+    startServer()
+    {
+        this.socket.connect();
+        console.log("Server "+this.id+" started");
+    }
+    stopServer()
+    {
+        this.socket.disconnect();
+        console.log("Server "+this.id+"  stopped");
     }
 }
 
@@ -132,7 +154,6 @@ function addNode(event)
             var state = new_node.state === true?'Deactivate server':'Activate server';
             document.getElementById("server_title").innerText=title;
             document.getElementById('changeState').innerHTML = state;
-            updateUrlList(selectedServer);
         }
     });
     // removing the form when a node is added
@@ -158,11 +179,11 @@ function addUrl(event, url)
     event.preventDefault();
     deleteMode.value = false;
     linkMode.value = false;
-    element = document.getElementById("add_url_prompt");
-    element.style.display = 'none';
+    // element = document.getElementById("add_url_prompt");
+    // element.style.display = 'none';
     // refresh the list of urls of the selected server
     selectedServer.services.push(url);
-    selectedServer = null;
+    updateUrlList(selectedServer);
 }
 
 /// Link 2 nodes
