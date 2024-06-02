@@ -35,8 +35,10 @@ function dijkstra(start_point, url_target)
         predecessors[node] = '';
         unvisitedNodes.push(node);
     }
+    console.log(nodes);
     console.log(distances);
     console.log(predecessors);
+    console.log(forwardingTable);
 
     // shortest distance search
     while(unvisitedNodes.length > 0)
@@ -73,7 +75,10 @@ function dijkstra(start_point, url_target)
     console.log(distances);
 
     // building the forwarding table
+    console.log("--------------starting point-------------");
+    console.log(start_point);
     buildTable(start_point, predecessors, forwardingTable);
+    console.log("-----------forwarding table-----------------");
     console.log(forwardingTable);
     return forwardingTable;
 }
@@ -106,30 +111,23 @@ function findNeighbhours(nodeName)
 // function that builds the forwarding table of a node given the table of predecessors
 function buildTable(start_point, predecessors, forwardingTable)
 {
-    let forwardingTable = {}
     for(var i = 0; i < nodes.length; i++)
     {
         let end_point = nodes[i].name;
         let nextHop = buildPath(start_point, end_point, predecessors);
         // modifying the output port of the start_point no reach end_node
-        forwardingTable.end_point = nextHop;
+        forwardingTable[end_point] = nextHop;
     }
 }
 
 // function that looks for the next node to go to in order to reach a specific node
 function buildPath(start_point, end_point, predecessors)
 {
-    let edgesIDs = [];
     let predecessor = end_point;
     let nextHop = end_point;
     // finding the path from the end_point to the start_point
     while(predecessor !== start_point)
     {
-        // adding an edge to color
-        let id1 = predecessor+'_'+predecessors[predecessor];
-        let id2 = predecessors[predecessor]+'_'+predecessor;    // needed in case the id is written the other way
-        edgesIDs.push(id1);
-        edgesIDs.push(id2);
         // storing the next node
         nextHop = predecessor;
         // going backward until reaching the start_point
@@ -137,6 +135,8 @@ function buildPath(start_point, end_point, predecessors)
     }
     
     // returning the nextHop to reach end_point
+    console.log("-----ilay haverina: ", nextHop);
+    console.log("----- input port-n'io: ", predecessor);
     return nextHop;
 }
 
